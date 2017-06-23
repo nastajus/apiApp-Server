@@ -1,0 +1,15 @@
+{
+  "name": "app-api-4",
+  "version": "1.0.0",
+  "description": "cat or task server",
+  "main": "index.js",
+  "scripts": {
+    "test": "start",
+    "start": "node index.js"
+  },
+  "author": "Ian",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
