@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Error</title>
+    </head>
+    <body>
+        <pre>RangeError: Invalid status code: 0
+            <br> &nbsp; &nbsp;at ServerResponse.writeHead (_http_server.js:192:11)
+            <br> &nbsp; &nbsp;at ServerResponse._implicitHeader (_http_server.js:157:8)
+            <br> &nbsp; &nbsp;at ServerResponse.OutgoingMessage.end (_http_outgoing.js:574:10)
+            <br> &nbsp; &nbsp;at ServerResponse.send (C:\Users\GMunion\IdeaProjects\appApi4\node_modules\express\lib\response.js:211:10)
+            <br> &nbsp; &nbsp;at foo (C:\Users\GMunion\IdeaProjects\appApi4\index.js:14:9)
+            <br> &nbsp; &nbsp;at Layer.handle [as handle_request] (C:\Users\GMunion\IdeaProjects\appApi4\node_modules\express\lib\router\layer.js:95:5)
+            <br> &nbsp; &nbsp;at trim_prefix (C:\Users\GMunion\IdeaProjects\appApi4\node_modules\express\lib\router\index.js:317:13)
+            <br> &nbsp; &nbsp;at C:\Users\GMunion\IdeaProjects\appApi4\node_modules\express\lib\router\index.js:284:7
+            <br> &nbsp; &nbsp;at Function.process_params (C:\Users\GMunion\IdeaProjects\appApi4\node_modules\express\lib\router\index.js:335:12)
+            <br> &nbsp; &nbsp;at next (C:\Users\GMunion\IdeaProjects\appApi4\node_modules\express\lib\router\index.js:275:10)
+        </pre>
+    </body>
+</html>
