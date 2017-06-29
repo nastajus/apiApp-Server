@@ -3,6 +3,7 @@ let mainRouter = express();
 
 
 let tasks = [];
+let users = [];
 
 
 init();
@@ -30,7 +31,7 @@ function Task(category, text, type, tags) {
     Auditable.call(this);
 
     Task.prototype.exportJson = function() {
-        return JSON.stringify({ category: this.category, tags: this.tags, text: this.text, type: this.type}); //, createdDate: createdDate, modifiedDate: modifiedDate});
+        return JSON.stringify({ category: this.category, tags: this.tags, text: this.text, type: this.type, createdDate: this.createdDate, modifiedDate: this.modifiedDate});
     };
 }
 
@@ -53,21 +54,7 @@ function callbackMiddleware (req, res) {
     console.log("This is a message from the demo package");
     console.log("request: " + req);
 
-    // for (var property in req) {
-    //     if (req.hasOwnProperty(property)) {
-    //         console.log ("   property: " + property + ", valueOf: " + property.valueOf() + ", value: " + property.value);
-    //     }
-    // }
-
-    // Object.keys(req).forEach(function(key,index) {
-    //     // key: the name of the object key
-    //     // index: the ordinal position of the key within the object
-    // });
-
-
-
     console.log("response: " + res);
-
 }
 
 
@@ -77,12 +64,6 @@ function init() {
 
     let jsonTasks = [];
 
-    // tasks.forEach(function(task){
-    //     task.exportJson();
-    //     //jsonTasks.push(task.exportJson());
-    //     //There is no way to stop or break a forEach() loop other than by throwing an exception. If you need such behavior, the forEach() method is the wrong tool. Use a plain loop instead.
-    // });
-
     for (let i=0; i<tasks.length; i++) {
         jsonTasks.push(tasks[i].exportJson());
     }
@@ -90,7 +71,7 @@ function init() {
     console.log(jsonTasks);
 }
 
-function createMockTasks(t) {
+function createMockTasks() {
     tasks.push(new Task("declutter", "complete nagging tasks", "habit"));
     tasks.push(new Task("finance", "eliminate financial waste", "habit"));
     tasks.push(new Task("fun", "complete video games on my shame pile", "", ["fulfillment", "completionist"]));
@@ -103,16 +84,6 @@ function createMockTasks(t) {
 }
 
 function createMockUsers() {
-    //jsonUsers.push()
+    //users.push()
 
 }
-
-function createJsonTask(category, text, type, tags) {
-    return JSON.stringify({ category: category, tags: tags, text: text, type: type});
-}
-
-function createJsonUser(username, password) {
-    return JSON.stringify({ username: username, password: password, createdDate: createdDate});
-}
-
-
