@@ -2,7 +2,7 @@ const express = require('express');
 let mainRouter = express();
 
 
-let jsonTasks = [];
+let tasks = [];
 
 
 init();
@@ -28,11 +28,12 @@ function Task(category, text, type, tags) {
     this.type = type;
     this.tags = tags;
     Auditable.call(this);
+
+    Task.prototype.exportJson = function() {
+        return JSON.stringify({ category: this.category, tags: this.tags, text: this.text, type: this.type}); //, createdDate: createdDate, modifiedDate: modifiedDate});
+    };
 }
 
-Task.prototype.exportJson = function() {
-    return JSON.stringify({ category: category, tags: tags, text: text, type: type, createdDate: createdDate, modifiedDate: modifiedDate});
-}
 
 
 
@@ -72,42 +73,33 @@ function callbackMiddleware (req, res) {
 
 function init() {
     //let jsonUsers = createMockUsers();
-    let jsonTasks = createMockTasks();
+    let tasks = createMockTasks();
+
+    let jsonTasks = [];
+
+    // tasks.forEach(function(task){
+    //     task.exportJson();
+    //     //jsonTasks.push(task.exportJson());
+    //     //There is no way to stop or break a forEach() loop other than by throwing an exception. If you need such behavior, the forEach() method is the wrong tool. Use a plain loop instead.
+    // });
+
+    for (let i=0; i<tasks.length; i++) {
+        jsonTasks.push(tasks[i].exportJson());
+    }
+
     console.log(jsonTasks);
 }
 
-
-function createMockTasksOld() {
-
-    //habit? //daily? //todo-one off? //reward
-    jsonTasks.push(createJsonTask("declutter", "complete nagging tasks", "habit"));
-    jsonTasks.push(createJsonTask("finance", "eliminate financial waste", "habit"));
-    jsonTasks.push(createJsonTask("fun", "complete video games on my shame pile", "", ["fulfillment", "completionist"]));
-    jsonTasks.push(createJsonTask("declutter", "physically eliminate fridge spoilage & clutter weekly", "habit"));
-    jsonTasks.push(createJsonTask("", "complete execution of own projects", "", ["pride", "marketability", "fulfillment"]));
-    jsonTasks.push(createJsonTask("education", "establish a process I use to learn a whole new domain from scratch, effectively", "", ["fulfillment", "pride", "~leverage", "~effectiveness"])) //define using an initial tilde ~ as a weasle word, to be revisited later.
-    //affirmation
-    //growth, projects..
-    //goals vs. purpose vs. mini-purpose. vs smart goals. :D
-
-
-    //JSON.stringify([new Number(1), new String('false'), new Boolean(false)]);
-    //JSON.stringify({ x: [10, undefined, function(){}, Symbol('')] });
-
-    //return jsonTasks;
-
-}
-
-function createMockTasks() {
-    jsonTasks.push(JSON.stringify(new Task("declutter", "complete nagging tasks", "habit")));
-    jsonTasks.push(JSON.stringify(new Task("finance", "eliminate financial waste", "habit")));
-    jsonTasks.push(JSON.stringify(new Task("fun", "complete video games on my shame pile", "", ["fulfillment", "completionist"])));
-    jsonTasks.push(JSON.stringify(new Task("declutter", "physically eliminate fridge spoilage & clutter weekly", "habit")));
-    jsonTasks.push(JSON.stringify(new Task("", "complete execution of own projects", "", ["pride", "marketability", "fulfillment"])));
-    jsonTasks.push(JSON.stringify(new Task("education", "establish a process I use to learn a whole new domain from scratch, effectively", "", ["fulfillment", "pride", "~leverage", "~effectiveness"]))); //define using an initial tilde ~ as a weasle word, to be revisited later.
+function createMockTasks(t) {
+    tasks.push(new Task("declutter", "complete nagging tasks", "habit"));
+    tasks.push(new Task("finance", "eliminate financial waste", "habit"));
+    tasks.push(new Task("fun", "complete video games on my shame pile", "", ["fulfillment", "completionist"]));
+    tasks.push(new Task("declutter", "physically eliminate fridge spoilage & clutter weekly", "habit"));
+    tasks.push(new Task("", "complete execution of own projects", "", ["pride", "marketability", "fulfillment"]));
+    tasks.push(new Task("education", "establish a process I use to learn a whole new domain from scratch, effectively", "", ["fulfillment", "pride", "~leverage", "~effectiveness"])); //define using an initial tilde ~ as a weasle word, to be revisited later.
 
     console.log("success new Tasks made");
-    return jsonTasks;
+    return tasks;
 }
 
 function createMockUsers() {
