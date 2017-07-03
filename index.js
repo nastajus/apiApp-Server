@@ -6,6 +6,8 @@ let tasks = [];
 let users = [];
 
 
+
+
 init();
 
 //mainRouter.get();
@@ -21,12 +23,6 @@ console.log ("Nastajus API task router is running.");
 function Auditable(createdDate, modifiedDate) {
     this.createdDate = (createdDate)? createdDate.toLocaleString() : new Date().toLocaleString();
     this.modifiedDate = (modifiedDate)? modifiedDate.toLocaleString() : new Date().toLocaleString();
-    if (!Object.prototype.toString.call(this.createdDate) === '[object Date]') {
-        throw new TypeError('createdDate is not a valid Date');
-    }
-    if (!Object.prototype.toString.call(this.modifiedDate) === '[object Date]') {
-        throw new TypeError('modifiedDate is not a valid Date');
-    }
 }
 
 function Task(category, text, type, tags, createdDate, modifiedDate) {
@@ -34,12 +30,28 @@ function Task(category, text, type, tags, createdDate, modifiedDate) {
     this.text = text;
     this.type = type;
     this.tags = tags;
-    Auditable.call(this, createdDate, modifiedDate);
+    //Auditable.call(this, createdDate, modifiedDate);
+    Auditable.bind(this, createdDate, modifiedDate);
+    Auditable();
 
-    Task.prototype.exportJson = function() {
-        return JSON.stringify({ category: this.category, tags: this.tags, text: this.text, type: this.type, createdDate: this.createdDate, modifiedDate: this.modifiedDate});
-    };
 }
+
+
+var newObj = {
+    createdDate:"cat",
+    modifiedDate:"dog"
+}
+var func2 = Auditable.bind(newObj);
+Auditable();
+func2("not_a_cat", "not_a_dog");
+
+var zackDante = {
+    createdDate: "zack",
+    modifiedDate: "dante"
+}
+
+var func333 = Auditable.bind(zackDante);
+func333("!~zack", "!~dante");
 
 
 
@@ -71,6 +83,9 @@ function init() {
     let jsonTasks = [];
 
     for (let i=0; i<tasks.length; i++) {
+        tasks[i].exportJson = function() {
+            return JSON.stringify(this);
+        };
         jsonTasks.push(tasks[i].exportJson());
     }
 
@@ -85,8 +100,6 @@ function createMockTasks() {
     let minutes = 30;
     let seconds = 0;
     let milliseconds = 0;
-    //native Date gets strinified as: "createdDate":"2000-12-25T11:30:00.000Z"
-    //toLocaleString() is pretty as:  "modifiedDate":"6/28/2017, 9:16:24 PM"
     tasks.push(new Task("declutter", "complete nagging tasks", "habit", null, new Date(year, month, date, hours, minutes, seconds, milliseconds)));
     tasks.push(new Task("finance", "eliminate financial waste", "habit", null, "not a date"));
     tasks.push(new Task("fun", "complete video games on my shame pile", "", ["fulfillment", "completionist"]));
